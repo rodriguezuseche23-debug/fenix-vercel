@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fénix IA — CIPE</title>
+<style>
+:root{--bg:#0b0f1a;--panel:#121826;--panel2:#161d2e;--line:#232b3d;--text:#e8ecf5;--muted:#8b95ab;--fire:#ff6a2b;--fire2:#ff8a3d;--ok:#37d67a;--warn:#ffb020}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif}
+.wrap{max-width:1150px;margin:0 auto;padding:24px}
+header{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--fire),#ff3d00);display:flex;align-items:center;justify-content:center;font-size:20px}
+.brand h1{font-size:20px}
+.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+.badge{background:#1c2436;border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:11px;color:var(--fire2)}
+nav{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--muted);font-size:13px;cursor:pointer;padding:8px 14px;border-radius:10px}
+nav button.active{color:#fff;border-color:var(--fire);background:#1a2130}
+.hero{padding:30px 0 10px}
+.hero h2{font-size:36px;line-height:1.15}
+.hero p{color:var(--muted);margin-top:10px;max-width:600px}
+.cta{background:linear-gradient(135deg,var(--fire),#ff3d00);color:#fff;border:none;padding:13px 20px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+.metric .k{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px}
+.metric .v{font-size:24px;font-weight:700;margin-top:6px}
+.metric .s{font-size:12px;color:var(--muted);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+.section{margin:26px 0;display:none}
+.section.show{display:block}
+.section h3{font-size:20px;margin-bottom:12px}
+.drop{border:1.5px dashed var(--line);border-radius:14px;padding:26px;text-align:center;color:var(--muted);background:var(--panel2)}
+.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.fields label{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+.fields input,select,textarea{width:100%;background:#0e1420;border:1px solid var(--line);color:var(--text);padding:10px 12px;border-radius:10px;font-size:14px;font-family:inherit}
+textarea{resize:vertical;min-height:70px}
+.btn{background:linear-gradient(135deg,var(--fire),#ff3d00);color:#fff;border:none;padding:12px 18px;border-radius:10px;font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{color:var(--muted);text-align:left;font-size:12px;text-transform:uppercase;padding:10px;border-bottom:1px solid var(--line)}
+td{padding:12px 10px;border-bottom:1px solid var(--line)}
+.rem{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--fire);margin-top:6px}
+.dot.ok{background:var(--ok)}
+footer{color:var(--muted);font-size:12px;padding:26px 0;border-top:1px solid var(--line);margin-top:30px}
+.tag{font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.ok{color:var(--ok);border-color:#1f4d33}
+.chat{display:flex;flex-direction:column;height:420px}
+.chatlog{flex:1;overflow-y:auto;background:#0e1420;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.45}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--fire),#ff3d00);color:#fff}
+.msg.bot{align-self:flex-start;background:var(--panel2);border:1px solid var(--line)}
+.chatinput{display:flex;gap:10px;margin-top:12px}
+.chatinput input{flex:1;background:#0e1420;border:1px solid var(--line);color:var(--text);padding:12px;border-radius:10px;font-size:14px}
+.emp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.empcard{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px}
+.empcard h4{font-size:16px}
+.empcard p{color:var(--muted);font-size:13px;margin-top:6px}
+@media(max-width:900px){.metrics,.grid2,.fields,.emp{grid-template-columns:1fr}}
+
+/* ===== Fénix IA — pulido profesional ===== */
+body{letter-spacing:.1px}
+header{padding:20px 0}
+.brand h1{font-size:22px}
+.card{box-shadow:0 12px 32px rgba(0,0,0,.28);transition:border-color .15s ease}
+.card:hover{border-color:rgba(255,106,43,.35)}
+nav button{transition:all .15s ease;font-weight:600}
+nav button:hover{color:#fff;border-color:rgba(255,106,43,.55);transform:translateY(-1px)}
+.btn{transition:transform .12s ease,box-shadow .12s ease,filter .12s ease}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.07);box-shadow:0 10px 24px rgba(255,106,43,.25)}
+input,select,textarea{transition:border-color .15s ease,box-shadow .15s ease}
+input:focus,select,textarea:focus{outline:none;border-color:var(--fire);box-shadow:0 0 0 3px rgba(255,106,43,.16)}
+tbody tr:hover{background:rgba(255,255,255,.03)}
+.preview{max-width:100%;max-height:260px;border-radius:12px;border:1px solid var(--line);margin-top:12px;display:none}
+.status-ok{color:var(--ok)!important}
+.status-err{color:#ff6b6b!important}
+
+</style>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <div class="logo">🔥</div>
+    <div><h1>Fénix IA — CIPE</h1><small>Contabilidad Inteligente Para Emprendedores</small></div>
+  </div>
+  <span class="badge">Venezuela · Bs.</span>
+</header>
+
+<nav>
+  <button class="active" onclick="ver('panel',this)">🏠 Panel</button>
+  <button onclick="ver('extractor',this)">📄 Extractor</button>
+  <button onclick="ver('registro',this)">📚 Registro</button>
+  <button onclick="ver('fiscal',this)">🧮 Fiscal</button>
+  <button onclick="ver('asistente',this)">🤖 Asistente IA</button>
+  <button onclick="ver('empresas',this)">🏢 Emprendedores</button>
+  <button onclick="ver('exportar',this)">📤 Exportar</button>
+  
+</nav>
+
+<section id="panel" class="section show">
+  <div class="hero">
+    <h2>La IA que ordena<br>tus números.</h2>
+    <p>Sube una foto o PDF de tu factura. Fénix la entiende, extrae los datos, calcula el IVA y te ayuda a decidir qué guardar.</p>
+    <button class="cta" onclick="ver('extractor',document.querySelectorAll('nav button')[1])">🔥 Sube tu primera factura</button>
+  </div>
+  <div class="metrics">
+    <div class="card metric"><div class="k">Facturas</div><div class="v" id="mFact">0</div><div class="s">Registradas</div></div>
+    <div class="card metric"><div class="k">IVA soportado</div><div class="v" id="mIva">Bs. 0</div><div class="s">Crédito fiscal</div></div>
+    <div class="card metric"><div class="k">Gastos deducibles</div><div class="v" id="mDed">Bs. 0</div><div class="s">Estimado</div></div>
+    <div class="card metric"><div class="k">Empresas</div><div class="v" id="mEmp">0</div><div class="s">Registradas</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-bottom:10px">Recordatorios</h3>
+      <div class="rem"><div class="dot"></div><div><b>Revisa facturas pendientes</b><br><span style="color:var(--muted);font-size:13px">Guarda y clasifica tus comprobantes antes de exportar.</span></div></div>
+      <div class="rem"><div class="dot ok"></div><div><b>Calendario fiscal</b><br><span style="color:var(--muted);font-size:13px">IVA mensual y ISLR estimado: confirma fechas con tu asesor.</span></div></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">Tu empresa</h3>
+      <p id="miEmpresa" style="color:var(--muted);font-size:14px">Aún no has registrado tu empresa. Ve a “Emprendedores” para crear tu perfil.</p>
+    </div>
+  </div>
+</section>
+
+<section id="extractor" class="section">
+  <h3>Extractor de facturas</h3>
+  <div class="grid2">
+    <div class="card">
+      <div class="drop">
+        <div style="font-size:30px">📄🔥</div>
+        <p style="margin-top:8px"><b>Arrastra una foto o PDF</b><br>o</p>
+        <input type="file" id="file" accept="image/*,application/pdf" hidden>
+        <button class="btn" style="margin-top:12px" onclick="document.getElementById('file').click()">Elegir archivo</button>
+        <p id="fileInfo" style="margin-top:10px;font-size:12px"></p>
+        <img id="preview" class="preview" alt="Vista previa de la factura">
+        <button class="btn ghost" style="margin-top:10px" onclick="extraerIA()">🤖 Extraer con IA</button>
+        <p id="iaStatus" style="margin-top:10px;font-size:12px;color:var(--muted)"></p>
+      </div>
+      <div class="fields">
+        <div><label>Tipo de documento</label><select id="tipo"><option>Compra / gasto</option><option>Venta / ingreso</option></select></div>
+        <div><label>Fecha de emisión</label><input type="date" id="fecha"></div>
+        <div><label>Emisor (razón social)</label><input id="emisor" placeholder="Ej. Tienda XYZ C.A."></div>
+        <div><label>RIF del emisor</label><input id="rif" placeholder="Ej. J-12345678-9"></div>
+        <div><label>Receptor (razón social)</label><input id="receptor" placeholder="Ej. Tu Empresa C.A."></div>
+        <div><label>RIF del receptor</label><input id="rifReceptor" placeholder="Ej. J-98765432-1"></div>
+        <div><label>N° de factura</label><input id="nfactura" placeholder="Ej. 001234"></div>
+        <div><label>Base imponible (Bs.)</label><input type="number" id="base" step="0.01"></div>
+        <div><label>IVA (Bs.)</label><input type="number" id="iva" step="0.01"></div>
+        <div><label>Total del documento (Bs.)</label><input type="number" id="total" step="0.01"></div>
+        <div><label>Categoría</label><select id="cat"><option>Publicidad</option><option>Equipos</option><option>Otros</option></select></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn" onclick="guardar()">Guardar factura</button>
+        <button class="btn ghost" onclick="limpiar()">Limpiar</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">Cómo funciona</h3>
+      <p style="color:var(--muted);font-size:13px">1. Sube la foto o PDF.<br>2. Pulsa “Extraer con IA”.<br>3. Revisa los datos.<br>4. Guarda la factura.</p>
+    </div>
+  </div>
+</section>
+
+<section id="registro" class="section">
+  <h3>Registro de facturas</h3>
+  <div class="card">
+    <table>
+      <thead><tr><th>Tipo</th><th>Emisor</th><th>Receptor</th><th>N° factura</th><th>Fecha</th><th>Base</th><th>IVA</th><th>Total</th><th>Categoría</th><th>Estado</th><th></th></tr></thead>
+      <tbody id="tbody"><tr><td colspan="9" style="color:var(--muted)">Todavía no hay facturas registradas.</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="fiscal" class="section">
+  <h3>Simulador fiscal</h3>
+  <div class="grid2">
+    <div class="card">
+      <p style="color:var(--muted);font-size:13px">Estimación de apoyo basada en las facturas registradas. No sustituye la revisión de un asesor contable antes de declarar ante el SENIAT.</p>
+      <div class="metrics" style="grid-template-columns:repeat(2,1fr);margin-top:14px">
+        <div class="metric"><div class="k">IVA soportado</div><div class="v" id="sIva">Bs. 0</div></div>
+        <div class="metric"><div class="k">Base deducible</div><div class="v" id="sBase">Bs. 0</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">Notas</h3>
+      <p style="color:var(--muted);font-size:13px">Fénix calcula con los datos que registras. Verifica tasas, UT y retenciones vigentes con un profesional antes de declarar.</p>
+    </div>
+  </div>
+</section>
+
+<section id="asistente" class="section">
+  <h3>Asistente IA</h3>
+  <div class="card chat">
+    <div class="chatlog" id="chatlog">
+      <div class="msg bot">Hola 👋 Soy el asistente de Fénix IA. Pregúntame sobre IVA, facturas, deducibles o cómo organizar tus gastos.</div>
+    </div>
+    <div class="chatinput">
+      <input id="chatInput" placeholder="Escribe tu pregunta…" onkeydown="if(event.key==='Enter')enviar()">
+      <button class="btn" onclick="enviar()">Enviar</button>
+    </div>
+  </div>
+</section>
+
+<section id="empresas" class="section">
+  <h3>Emprendedores</h3>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-bottom:10px">Registra tu empresa</h3>
+      <div class="fields">
+        <div><label>Nombre de la empresa</label><input id="eNombre" placeholder="Ej. Mi Tienda C.A."></div>
+        <div><label>RIF</label><input id="eRif" placeholder="Ej. J-12345678-9"></div>
+        <div><label>Rubro / actividad</label><input id="eRubro" placeholder="Ej. Comercio, Servicios, Tecnología"></div>
+        <div><label>Contacto (teléfono o correo)</label><input id="eContacto" placeholder="Ej. 0412-1234567"></div>
+      </div>
+      <div><label style="color:var(--muted);font-size:12px;display:block;margin:10px 0 6px">Descripción</label><textarea id="eDesc" placeholder="Cuenta qué hace tu negocio…"></textarea></div>
+      <button class="btn" style="margin-top:12px" onclick="guardarEmpresa()">Guardar empresa</button>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">Empresas registradas</h3>
+      <div class="emp" id="empList"><p style="color:var(--muted);font-size:13px">Aún no hay empresas registradas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="exportar" class="section">
+  <h3>Exportar</h3>
+  <div class="card">
+    <p style="color:var(--muted);font-size:13px">Exporta tus facturas en CSV o en un archivo compatible con Excel (con hoja de resumen).</p>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="btn" onclick="exportCSV()">Exportar CSV</button>
+      <button class="btn ghost" onclick="exportExcel()">Exportar Excel avanzado (CSV)</button>
+    </div>
+  </div>
+</section>
+
+
+<footer>Fénix IA — CIPE · Contabilidad Inteligente Para Emprendedores · Los cálculos son estimaciones de apoyo y no sustituyen la asesoría de un profesional antes de declarar ante el SENIAT.</footer>
+</div>
+<script>
+let facturas = JSON.parse(localStorage.getItem('fenix_facturas')||'[]');
+let empresas = JSON.parse(localStorage.getItem('fenix_empresas')||'[]');
+let archivoActual = null;
+const fmt = n => 'Bs. ' + (Number(n)||0).toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2});
+function ver(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function render(){
+  const tb=document.getElementById('tbody');
+  if(!facturas.length){tb.innerHTML='<tr><td colspan="11" style="color:var(--muted)">Todavía no hay facturas registradas.</td></tr>';}
+  else{tb.innerHTML=facturas.map((f,i)=>'<tr><td>'+f.tipo+'</td><td>'+f.emisor+'</td><td>'+(f.receptor||'—')+'</td><td>'+(f.nfactura||'—')+'</td><td>'+f.fecha+'</td><td>'+fmt(f.base)+'</td><td>'+fmt(f.iva)+'</td><td>'+fmt(f.total)+'</td><td>'+f.cat+'</td><td><span class="tag ok">Auditada</span></td><td><button class="btn ghost" onclick="borrar('+i+')">✕</button></td></tr>').join('');}
+  const iva=facturas.reduce((s,f)=>s+Number(f.iva||0),0);
+  const base=facturas.reduce((s,f)=>s+Number(f.base||0),0);
+  document.getElementById('mFact').textContent=facturas.length;
+  document.getElementById('mIva').textContent=fmt(iva);
+  document.getElementById('mDed').textContent=fmt(base);
+  document.getElementById('mEmp').textContent=empresas.length;
+  document.getElementById('sIva').textContent=fmt(iva);
+  document.getElementById('sBase').textContent=fmt(base);
+  const el=document.getElementById('empList');
+  if(!empresas.length){el.innerHTML='<p style="color:var(--muted);font-size:13px">Aún no hay empresas registradas.</p>';}
+  else{el.innerHTML=empresas.map(e=>'<div class="empcard"><h4>'+e.nombre+'</h4><p><b>Rubro:</b> '+e.rubro+'</p><p><b>RIF:</b> '+e.rif+'</p><p><b>Contacto:</b> '+e.contacto+'</p><p>'+e.desc+'</p></div>').join('');}
+  const m=document.getElementById('miEmpresa');
+  m.textContent=empresas.length?('Empresa activa: '+empresas[0].nombre+' ('+empresas[0].rubro+')'):'Aún no has registrado tu empresa. Ve a “Emprendedores” para crear tu perfil.';
+
+}
+function guardar(){
+  const f={tipo:document.getElementById('tipo').value,fecha:document.getElementById('fecha').value,emisor:document.getElementById('emisor').value||'—',rif:document.getElementById('rif').value||'—',receptor:document.getElementById('receptor').value||'—',rifReceptor:document.getElementById('rifReceptor').value||'—',nfactura:document.getElementById('nfactura').value||'—',base:document.getElementById('base').value||0,iva:document.getElementById('iva').value||0,total:document.getElementById('total').value||0,cat:document.getElementById('cat').value};
+  if(!f.fecha||f.emisor==='—'||!Number(f.total)){alert('Completa fecha, emisor y total.');return;}
+  facturas.push(f);localStorage.setItem('fenix_facturas',JSON.stringify(facturas));render();limpiar();ver('registro',document.querySelectorAll('nav button')[2]);
+}
+function borrar(i){facturas.splice(i,1);localStorage.setItem('fenix_facturas',JSON.stringify(facturas));render();}
+function limpiar(){['fecha','emisor','rif','receptor','rifReceptor','nfactura','base','iva','total'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('preview').style.display='none';
+  document.getElementById('fileInfo').textContent='';}
+function guardarEmpresa(){
+  const e={nombre:document.getElementById('eNombre').value,rif:document.getElementById('eRif').value,rubro:document.getElementById('eRubro').value,contacto:document.getElementById('eContacto').value,desc:document.getElementById('eDesc').value};
+  if(!e.nombre){alert('Escribe el nombre de la empresa.');return;}
+  empresas.push(e);localStorage.setItem('fenix_empresas',JSON.stringify(empresas));render();
+  ['eNombre','eRif','eRubro','eContacto','eDesc'].forEach(id=>document.getElementById(id).value='');
+}
+function exportCSV(){
+  if(!facturas.length){alert('No hay facturas para exportar.');return;}
+  const rows=[['Tipo','Emisor','RIF','Receptor','RIF receptor','N° factura','Fecha','Base','IVA','Total','Categoría']].concat(facturas.map(f=>[f.tipo,f.emisor,f.rif,f.receptor||'',f.rifReceptor||'',f.nfactura||'',f.fecha,f.base,f.iva,f.total,f.cat]));
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='fenix_facturas.csv';a.click();
+}
+function exportExcel(){
+  if(!facturas.length){alert('No hay facturas para exportar.');return;}
+  const iva=facturas.reduce((s,f)=>s+Number(f.iva||0),0);
+  const base=facturas.reduce((s,f)=>s+Number(f.base||0),0);
+  const wb=XLSX.utils.book_new();
+  const resumen=[['RESUMEN FÉNIX'],['Facturas',facturas.length],['IVA soportado',iva],['Base deducible',base]];
+  const detalle=[['Tipo','Emisor','RIF','Receptor','RIF receptor','N° factura','Fecha','Base','IVA','Total','Categoría']].concat(facturas.map(f=>[f.tipo,f.emisor,f.rif,f.receptor||'',f.rifReceptor||'',f.nfactura||'',f.fecha,f.base,f.iva,f.total,f.cat]));
+  const ws1=XLSX.utils.aoa_to_sheet(resumen);
+  const ws2=XLSX.utils.aoa_to_sheet(detalle);
+  XLSX.utils.book_append_sheet(wb,ws1,'Resumen');
+  XLSX.utils.book_append_sheet(wb,ws2,'Facturas');
+  XLSX.writeFile(wb,'fenix_facturas.xlsx');
+}
+function guardarKey(){
+  const k=document.getElementById('apiKey').value.trim();
+  if(!k){alert('Pega tu clave de OpenRouter.');return;}
+  localStorage.setItem('fenix_key',k);render();
+}
+async function extraerIA(){
+  if(!archivoActual){alert('Sube primero una foto o PDF.');return;}
+  const st=document.getElementById('iaStatus');
+  st.textContent='Extrayendo con IA…';st.className='';
+  try{
+    const res=await fetch('/api/ia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'extract',image:archivoActual.dataUrl})});
+    const j=await res.json();
+    if(!res.ok||j.error){throw new Error(j.error||'Error');}
+    const d=j.data||{};
+    document.getElementById('tipo').value=d.tipo||'Compra / gasto';
+    document.getElementById('fecha').value=d.fecha||'';
+    document.getElementById('emisor').value=d.emisor||'';
+    document.getElementById('rif').value=d.rif||'';
+    document.getElementById('receptor').value=d.receptor||'';
+    document.getElementById('rifReceptor').value=d.rif_receptor||'';
+    document.getElementById('nfactura').value=d.numero_factura||'';
+    document.getElementById('base').value=d.base||'';
+    document.getElementById('iva').value=d.iva||'';
+    document.getElementById('total').value=d.total||'';
+    document.getElementById('cat').value=d.categoria||'Otros';
+    st.textContent='✅ Extracción lista. Revisa los datos antes de guardar.';st.className='status-ok';
+  }catch(e){st.textContent='❌ Error al extraer. Intenta de nuevo con una imagen más clara.';st.className='status-err';}
+}
+let chatHistory=[];
+function empresaContexto(){const e=empresas[0];if(!e)return 'El usuario aún no ha registrado su empresa.';return 'Empresa: '+e.nombre+'. Rubro: '+(e.rubro||'no indicado')+'. RIF: '+(e.rif||'no indicado')+'.';}
+function facturasContexto(){if(!facturas.length)return 'Aún no hay facturas registradas.';const ult=facturas.slice(-5);return 'Últimas facturas registradas: '+ult.map(f=>f.tipo+' de '+(f.emisor||'—')+' por '+fmt(f.total)+' Bs. ('+(f.cat||'—')+')').join('; ')+'.';}
+async function enviar(){
+  const inp=document.getElementById('chatInput');const q=inp.value.trim();if(!q)return;
+  const log=document.getElementById('chatlog');
+  const um=document.createElement('div');um.className='msg user';um.textContent=q;log.appendChild(um);
+  inp.value='';log.scrollTop=log.scrollHeight;
+  let r;
+  try{
+    const res=await fetch('/api/ia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'chat',messages:chatHistory.slice(-10).concat([{role:'user',content:q}]),contexto:empresaContexto()+' '+facturasContexto()})});
+    const j=await res.json();
+    if(!res.ok||j.error){throw new Error(j.error||'Error');}
+    r=j.respuesta||'No pude generar una respuesta. Intenta de nuevo.';
+    chatHistory.push({role:'user',content:q});chatHistory.push({role:'assistant',content:r});
+  }catch(e){r='❌ Error al conectar con la IA. Intenta de nuevo en unos segundos.';}
+  const bm=document.createElement('div');bm.className='msg bot';bm.textContent=r;log.appendChild(bm);log.scrollTop=log.scrollHeight;
+}
+document.getElementById('file').addEventListener('change',e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  document.getElementById('fileInfo').textContent='Archivo listo: '+f.name;
+  const pv=document.getElementById('preview');
+  if(f.type.startsWith('image/')){pv.src='';}else{pv.style.display='none';}
+  const reader=new FileReader();
+  reader.onload=ev=>{archivoActual={name:f.name,dataUrl:ev.target.result};const pv=document.getElementById('preview');if(f.type.startsWith('image/')){pv.src=ev.target.result;pv.style.display='block';}};
+  if(f.type.startsWith('image/')){reader.readAsDataURL(f);}
+  else{document.getElementById('fileInfo').textContent='PDF detectado: la extracción de PDF requiere un paso adicional (te lo explico después). Por ahora usa una foto clara de la factura.';}
+});
+render();
+</script>
+</body>
+</html>
